@@ -44,7 +44,7 @@ To draw the charging curves of a specific day, run
 python evaluation.py plot-charging-data --csv-file out.csv --selected-date 2024-07-12 --start-time 08:00 --end-time 23:00
 ```
 
-This creates the charging curves for July 12th from 8am until 11pm using matplotlib.
+This draws the charging curves for July 12th from 8am until 11pm using matplotlib.
 
 
 
