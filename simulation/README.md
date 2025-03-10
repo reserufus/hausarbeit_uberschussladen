@@ -1,56 +1,66 @@
-# charging simulation using solarlog data
+# Charging Simulation Using Solarlog Data
 
-Simulation for the four described charging algorithms using data from solarlog.
+This project simulates four distinct charging algorithms using Solarlog data to model vehicle charging behavior. The simulation output can then be analyzed to visualize charging curves and calculate associated costs.
 
-Adjust file `config.json`:
+## Configuration
+
+Before running the simulation, configure the `config.json` file with the following parameters:
+
 ```
 {
-    "daily_usage": "Daily energy requirement to be charged, measured in watt-hours (Wh).",
-    "min_soc": "Minimum state of charge (SoC) percentage that the vehicle battery must reach by the end time.",
-    "max_soc": "Maximum state of charge (SoC) percentage; charging stops when this level is reached.",
-    "capacity": "Total battery capacity of the vehicle, expressed in watt-hours (Wh).",
-    "start": "Start time of the charging process, formatted as 'HH:MM:SS' (e.g., '08:00:00').",
-    "weekend_start": "Specific start time for charging on weekends (Saturday and Sunday), formatted as 'HH:MM:SS'.",
-    "end": "End time of the charging process, formatted as 'HH:MM:SS'.",
-    "weekend_end": "End time of the charging process on weekend days (Saturday and Sunday), formatted as 'HH:MM:SS'.",
-    "max_charging_speed": "Maximum charging power the vehicle can accept, measured in watts (W).",
-    "preset_charging_speed": "Predefined charging power used for scheduled charging, measured in watts (W).",
-    "preset_start_time": "Start time for preset charging, formatted as 'HH:MM:SS'.",
-    "preset_end_time": "End time for preset charging, formatted as 'HH:MM:SS'.",
-    "calls_per_hour": "Frequency of algorithm execution per hour (e.g., 12 calls per hour for 5-minute intervals).",
-    "starting_soc": "Initial state of charge (SoC) percentage of the vehicle battery at the start of the simulation.",
-    "start_date": "Start date of the simulation, formatted as 'YYYY-MM-DD' (e.g., '2024-01-01'); data must be available for this date.",
-    "end_date": "End date of the simulation, formatted as 'YYYY-MM-DD'; data must be available up to this date.",
-    "surplus_charging_delayed": "Flag to use data from the previous interval for surplus charging algorithms, simulating component delays.",
-    "minimum_charge_speed": "Minimum charging power the vehicle can accept, measured in watts (W).",
-    "charge_step_size": "Increment by which charging power can be adjusted, measured in watts (W).",
-    "step_mode": "Method for adjusting charging speed to the nearest step: 'round_down' (rounds down to the nearest step), 'round_up' (rounds up to the nearest step), or 'balanced' (rounds to the closest step)."
+    "daily_usage": "Daily energy requirement for charging, in watt-hours (Wh).",
+    "min_soc": "Minimum state of charge (SoC) percentage the battery must reach by the end time.",
+    "max_soc": "Maximum SoC percentage; charging halts upon reaching this threshold.",
+    "capacity": "Total battery capacity of the vehicle, in watt-hours (Wh).",
+    "start": "Charging start time, in 'HH:MM:SS' format (e.g., '08:00:00').",
+    "weekend_start": "Weekend-specific (Saturday/Sunday) charging start time, in 'HH:MM:SS' format.",
+    "end": "Charging end time, in 'HH:MM:SS' format.",
+    "weekend_end": "Weekend-specific (Saturday/Sunday) charging end time, in 'HH:MM:SS' format.",
+    "max_charging_speed": "Maximum charging power supported by the vehicle, in watts (W).",
+    "preset_charging_speed": "Fixed charging power for scheduled charging, in watts (W).",
+    "preset_start_time": "Start time for preset charging, in 'HH:MM:SS' format.",
+    "preset_end_time": "End time for preset charging, in 'HH:MM:SS' format.",
+    "calls_per_hour": "Number of algorithm executions per hour (e.g., 12 for 5-minute intervals).",
+    "starting_soc": "Initial SoC percentage of the battery at simulation start.",
+    "start_date": "Simulation start date, in 'YYYY-MM-DD' format (e.g., '2024-01-01'); data must be available.",
+    "end_date": "Simulation end date, in 'YYYY-MM-DD' format; data must be available through this date.",
+    "surplus_charging_delayed": "Flag to use prior interval data for surplus charging, mimicking component delays.",
+    "minimum_charge_speed": "Minimum charging power the vehicle accepts, in watts (W).",
+    "charge_step_size": "Increment for adjusting charging power, in watts (W).",
+    "step_mode": "Charging speed adjustment method: 'round_down' (to lower step), 'round_up' (to upper step), or 'balanced' (to nearest step)."
 }
 ```
-Make sure that you have fetched the data from Solarlog using the `solarlog.py` script.
-Then run
-```
+
+## Running the Simulation
+
+First, ensure Solarlog data is retrieved using the `solarlog.py` script. Then, execute the simulation with:
+
+```bash
 python simulation.py simulation --datafile entire_2024.csv --configfile config.json --out out.csv
 ```
 
-This generates the simulation output in file `out.csv`.
+This command generates a simulation output file, `out.csv`, containing the results for further analysis.
 
-The output csv of the simulation script can now be used to run the `evaluation.py` script that can calculate the charging costs and create a charging curve diagram diagram for a specific day.
+## Analyzing the Results
 
+The `evaluation.py` script processes the simulation output (`out.csv`) to visualize charging curves or compute costs. It supports two commands:
 
+### Plot Charging Curves
 
-To draw the charging curves of a specific day, run
-```
+To generate a charging curve diagram for a specific day, run:
+
+```bash
 python evaluation.py plot-charging-data --csv-file out.csv --selected-date 2024-07-12 --start-time 08:00 --end-time 23:00
 ```
 
-This creates the charging curves for July 12th from 8am until 11pm using matplotlib.
+This creates a Matplotlib plot of the charging curves for July 12, 2024, from 08:00 to 23:00.
 
+### Calculate Charging Costs
 
+To compute costs and energy metrics for the four algorithms, use:
 
-To calculate the charging costs and other values for the four algorithms, run
+```bash
+python evaluation.py print-charging-costs --csv-file out.csv --solar-price 0.097 --grid-price 0.33
 ```
-python charging_analysis.py print-charging-costs --csv-file out.csv --solar-price 0.097 --grid-price 0.33
-```
 
-This calculates the charging costs, if a kWH of solar usage costs 0.097€ (feed-in tariff can be treated as cost) and a kWH of grid usage costs 0.33€ and prints the values in the console.
+This calculates costs assuming €0.097 per kWh for solar energy (e.g., feed-in tariff as opportunity cost) and €0.33 per kWh for grid energy, displaying the results in the console.

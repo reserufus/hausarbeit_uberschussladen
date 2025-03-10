@@ -1,5 +1,7 @@
-# misc folder
+# Miscellaneous Scripts
 
-This folder contains other scripts that are used for my homework about surplus charging.
+This folder houses additional scripts developed for my homework on surplus charging, providing supplementary tools for analysis and visualization.
 
-The script `create_cost_bar_diagram` creates a bar diagram using matplotlib to visualize the expected yearly costs of the four charging methods.
+## Cost Visualization
+
+The script `create_cost_bar_diagram` generates a bar diagram using Matplotlib to illustrate the expected annual costs of the four charging methods. It offers a clear visual comparison of the financial implications of each approach.

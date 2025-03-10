@@ -1,7 +1,21 @@
-# Code for my Homework
-This github repository contains all code used in my homework, including the simulation, but also code for fetching data, analyzing data and creating diagrams. It also includes some of the data used for the simulation.
+# Homework Code Repository
 
-Python is required to run this code.
-To install all required dependencies, run ```pip install -r requirements.txt```
+This GitHub repository contains all the code developed for my homework project. It includes scripts for simulating charging processes, fetching data, analyzing results, and generating diagrams. Additionally, some of the data used in the simulation is provided within this repository.
 
-Then you can navigate into the subfolders to run the Python scripts. Each subfolder contains an additional README file that provides instructions on the code of the subfolder.
+## Prerequisites
+
+To run the code, you need:
+- **Python 3.x** installed on your system.
+
+Install the required dependencies by executing:
+```
+pip install -r requirements.txt
+```
+
+## Structure and Usage
+
+The repository is organized into subfolders, each containing specific Python scripts and resources. To use the code:
+1. Navigate into the desired subfolder.
+2. Refer to the `README` file within each subfolder for detailed instructions on running the scripts and understanding their functionality.
+
+Each subfolder focuses on a distinct part of the project, such as data retrieval, simulation, or analysis, ensuring modularity and ease of use.
