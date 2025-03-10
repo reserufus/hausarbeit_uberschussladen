@@ -29,11 +29,28 @@ Adjust file `config.json`:
 ```
 Make sure that you have fetched the data from Solarlog using the `solarlog.py` script.
 Then run
-
 ```
 python simulation.py simulation --datafile entire_2024.csv --configfile config.json --out out.csv
 ```
 
 This generates the simulation output in file `out.csv`.
 
-The output can now be used to run the `evaluation.py` script that can calculate the charging costs and create a charging curve diagram diagram for a specific day.
+The output csv of the simulation script can now be used to run the `evaluation.py` script that can calculate the charging costs and create a charging curve diagram diagram for a specific day.
+
+
+
+To draw the charging curves of a specific day, run
+```
+python evaluation.py plot-charging-data --csv-file out.csv --selected-date 2024-07-12 --start-time 08:00 --end-time 23:00
+```
+
+This creates the charging curves for July 12th from 8am until 11pm using matplotlib.
+
+
+
+To calculate the charging costs and other values for the four algorithms, rum
+```
+python charging_analysis.py print-charging-costs --csv-file out.csv --solar-price 0.097 --grid-price 0.33
+```
+
+This calculates the charging costs, if a kWH of solar usage costs 0.097€ (feed-in tariff can be treated as cost) and a kWH of grid usage costs 0.33€.
