@@ -1,1 +1,1 @@
-
+The script `analyze_charging_history.py` draws a bar diagram to visualize the chargeing history of the charging_history_full.csv file and calculate the average daily charging costs. There is also a commented out section that can draw bar diagrams for the weekly or monthly charging amount.
