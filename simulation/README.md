@@ -53,4 +53,4 @@ To calculate the charging costs and other values for the four algorithms, run
 python charging_analysis.py print-charging-costs --csv-file out.csv --solar-price 0.097 --grid-price 0.33
 ```
 
-This calculates the charging costs, if a kWH of solar usage costs 0.097€ (feed-in tariff can be treated as cost) and a kWH of grid usage costs 0.33€ and prints the cost in the console.
+This calculates the charging costs, if a kWH of solar usage costs 0.097€ (feed-in tariff can be treated as cost) and a kWH of grid usage costs 0.33€ and prints the values in the console.
