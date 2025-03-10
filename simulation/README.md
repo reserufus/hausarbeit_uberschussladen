@@ -26,12 +26,14 @@ Adjust file `config.json`:
     "charge_step_size": "Increment by which charging power can be adjusted, measured in watts (W).",
     "step_mode": "Method for adjusting charging speed to the nearest step: 'round_down' (rounds down to the nearest step), 'round_up' (rounds up to the nearest step), or 'balanced' (rounds to the closest step)."
 }
-``` 
-
+```
+Make sure that you have fetched the data from Solarlog using the `solarlog.py` script.
 Then run
 
 ```
-python solarlog.py data --first 20241225 --last 20241226 --datafile mydata.csv --config config.json
+python simulation.py simulation --datafile entire_2024.csv --configfile config.json --out out.csv
 ```
 
-Find data in file `mydata.csv`.
+This generates the simulation output in file `out.csv`.
+
+The output can now be used to run the `evaluation.py` script that can calculate the charging costs and create a charging curve diagram diagram for a specific day.
