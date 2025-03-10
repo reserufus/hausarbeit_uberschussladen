@@ -1,0 +1,22 @@
+{
+    "daily_usage": 11600,
+    "min_soc": 40,
+    "max_soc": 80,
+    "capacity": 60000,
+    "start" : "16:00:00",
+    "weekend_start": "08:00:00",
+    "end": "20:00:00",
+    "weekend_end": "20:00:00",
+    "max_charging_speed": 11040,
+    "preset_charging_speed": 3680,
+    "preset_start_time": "12:00:00",
+    "preset_end_time": "23:00:00",
+    "calls_per_hour": 12,
+    "starting_soc": 50,
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "surplus_charging_delayed": true,
+    "minimum_charge_speed": 1380,
+    "charge_step_size": 230,
+    "step_mode": "balanced"
+}
