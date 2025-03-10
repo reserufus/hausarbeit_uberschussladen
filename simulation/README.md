@@ -48,7 +48,7 @@ This creates the charging curves for July 12th from 8am until 11pm using matplot
 
 
 
-To calculate the charging costs and other values for the four algorithms, rum
+To calculate the charging costs and other values for the four algorithms, run
 ```
 python charging_analysis.py print-charging-costs --csv-file out.csv --solar-price 0.097 --grid-price 0.33
 ```
