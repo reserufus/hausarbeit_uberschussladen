@@ -64,3 +64,23 @@ python evaluation.py print-charging-costs --csv-file out.csv --solar-price 0.097
 ```
 
 This calculates costs assuming €0.097 per kWh for solar energy (e.g., feed-in tariff as opportunity cost) and €0.33 per kWh for grid energy, displaying the results in the console.
+
+### Plot Weekly PV Share
+
+To visualize the weekly PV share for all methods or a specific method over time, use:
+
+#### All Methods (Default Behavior):
+
+```bash
+python evaluation.py plot-weekly-pv-share --csv-file out.csv
+```
+
+This generates a plot showing the weekly PV share (%) for all four algorithms.
+
+#### Specific Method:
+
+```bash
+python evaluation.py plot-weekly-pv-share --csv-file out.csv --method surplus_all
+```
+
+Replace `surplus_all` with one of `uncontrolled`, `preset`, `surplus_all`, or `surplus_no_soc` to view only that method's weekly PV share.

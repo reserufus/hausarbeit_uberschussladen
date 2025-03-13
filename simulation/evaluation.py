@@ -10,6 +10,81 @@ def cli():
 
 @cli.command()
 @click.option('--csv-file', required=True, type=str, help='Pfad zur CSV-Datei')
+@click.option('--method', default='all', type=click.Choice(['all', 'uncontrolled', 'preset', 'surplus_all', 'surplus_no_soc']), help='Ausgewähltes Ladeverfahren (Standard: alle)')
+def plot_weekly_pv_share(csv_file, method):
+    """
+    Zeichnet den wöchentlichen PV-Anteil für ein ausgewähltes Ladeverfahren oder alle Verfahren über den gesamten Zeitraum.
+    """
+    df = pd.read_csv(csv_file, parse_dates=['time'])
+
+    # Zeitintervall (5 Minuten)
+    time_interval_hours = 5 / 60
+
+    # Woche und Jahr extrahieren
+    df['year_week'] = df['time'].dt.strftime('%Y-%U')
+
+    methods = ["uncontrolled", "preset", "surplus_all", "surplus_no_soc"]
+    method_titles = {
+        "uncontrolled": "Unreguliertes Laden",
+        "preset": "Voreingestelltes Laden",
+        "surplus_all": "Überschussladen mit allen Informationen",
+        "surplus_no_soc": "Überschussladen ohne Akkuinformationen"
+    }
+
+    colors = {
+        "uncontrolled": "green",
+        "preset": "red",
+        "surplus_all": "orange",
+        "surplus_no_soc": "blue"
+    }
+
+    selected_methods = methods if method == 'all' else [method]
+
+    weeks = sorted(df['year_week'].unique())
+    weekly_pv_shares = {m: [] for m in selected_methods}
+
+    for week in weeks:
+        week_df = df[df['year_week'] == week]
+
+        for m in selected_methods:
+            charging_power = week_df[f"{m}_charging_power"]
+            surplus = week_df["surplus"]
+
+            pv_energy = (charging_power.clip(upper=surplus) * time_interval_hours).sum()
+            grid_energy = ((charging_power - surplus).clip(lower=0) * time_interval_hours).sum()
+
+            total_energy = pv_energy + grid_energy
+            pv_share_percentage = (pv_energy / total_energy * 100) if total_energy > 0 else 0
+            weekly_pv_shares[m].append(pv_share_percentage)
+
+    # Plot erstellen
+    plt.figure(figsize=(14, 7))
+
+    for m in selected_methods:
+        plt.plot(weeks, weekly_pv_shares[m], marker='o', linestyle='-', label=method_titles[m], color=colors[m])
+
+    title_suffix = 'alle Ladeverfahren' if method == 'all' else method_titles[method]
+    plt.title(f"Wöchentlicher PV-Anteil (%) - {title_suffix}")
+    plt.xlabel("Kalenderwoche")
+    plt.ylabel("PV-Anteil (%)")
+    plt.grid(True)
+    plt.ylim(0, 100)
+
+    # X-Achse übersichtlich formatieren
+    plt.xticks(rotation=45)
+
+    if method == 'all':
+        plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+
+@cli.command()
+@click.option('--csv-file', required=True, type=str, help='Pfad zur CSV-Datei')
 @click.option('--selected-date', required=True, type=str, help='Datum im Format YYYY-MM-DD')
 @click.option('--start-time', required=True, type=str, help='Startzeit im Format HH:MM')
 @click.option('--end-time', required=True, type=str, help='Endzeit im Format HH:MM')
