@@ -30,5 +30,5 @@ This retrieves data from December 25, 2024, to December 26, 2024, and saves it t
 
 ## Visualizing Surplus Data
 
-The script `surplus_plot.py` processes the retrieved data to create a bar diagram illustrating the average surplus energy by time of day. Refer to its specific usage instructions within the script or an accompanying README if provided.
+The script `surplus_plot.py` processes the retrieved data to create a bar diagram illustrating the average surplus energy by time of day.
 
